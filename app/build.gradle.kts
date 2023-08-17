@@ -4,6 +4,12 @@ val nav_version = "2.3.3"
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+}
+
+kotlin {
+    // For example:
+    jvmToolchain(17)
 }
 
 android {
@@ -29,13 +35,21 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+
+    //Commented out to make program built and execute.  Replaced by kotlin section with
+    // JVM Toolchain setting above, if I understand correctly.
+    /*kotlinOptions {
+        jvmTarget = "1.17"
+    }*/
 }
 
 dependencies {
