@@ -1,6 +1,7 @@
 package com.example.pennydrop4.fragments
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +37,9 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentGameBinding.inflate(inflater, container, false)
+            .apply {
+                textCurrentTurnInfo.movementMethod = ScrollingMovementMethod()
+            }
 
         return binding.root
     }
