@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.GameFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/game_fragment" />
+        android:animateLayoutChanges="true"
+        tools:context="com.example.pennydrop4.GameFragment">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/textCurrentPlayerName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="Hazel"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toBottomOf="@id/textCoinsLeft"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textCurrentPlayerCoinsLeft"
+            tools:text="Michael" />
+
+        <TextView
+            android:id="@+id/textCurrentPlayerCoinsLeft"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="7"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@id/textCoinsLeft"
+            app:layout_constraintStart_toStartOf="@id/textCoinsLeft"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="10" />
+
+        <TextView
+            android:id="@+id/textCoinsLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:text="coin(s) left"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textCurrentPlayerCoinsLeft" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
