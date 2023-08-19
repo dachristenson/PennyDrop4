@@ -14,7 +14,7 @@ kotlin {
 
 android {
     namespace = "com.example.pennydrop4"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.pennydrop4"

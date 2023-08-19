@@ -19,7 +19,7 @@
             android:src="@drawable/baseline_play_arrow_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@android:color/white" />
+            app:tint="@android:color/black" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,12 +32,12 @@
             <include
                 android:id="@+id/mainPlayer"
                 layout="@layout/player_list_item"
-                app:checkboxHidden="@true"
-                app:switchHidden="@true" />
+                app:checkboxHidden="@{true}"
+                app:switchHidden="@{true}" />
             <include
                 android:id="@+id/player2"
                 layout="@layout/player_list_item"
-                app:checkboxHidden="@true" />
+                app:checkboxHidden="@{true}" />
             <include
                 android:id="@+id/player3"
                 layout="@layout/player_list_item" />
