@@ -8,7 +8,7 @@ data class NewPlayer(
     val isHuman: ObservableBoolean = ObservableBoolean(true),
     val canBeRemoved: Boolean = true,
     val canBeToggled: Boolean = true,
-    var isIncluded: ObservableBoolean = ObservableBoolean(!canBeRemoved)
+    var isIncluded: ObservableBoolean = ObservableBoolean(!canBeRemoved),
     var selectedAIPosition: Int = -1
 ) {
     fun selectedAI() = if (!isHuman.get()) {
@@ -16,4 +16,14 @@ data class NewPlayer(
     } else {
         null
     }
+
+    fun toPlayer() = Player(
+        if (this.isHuman.get()) {
+            this.playerName
+        } else {
+            (this.selectedAI()?.name ?: "AI")
+        },
+        this.isHuman.get(),
+        this.selectedAI()
+    )
 }
