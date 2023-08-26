@@ -2,7 +2,7 @@ package com.example.pennydrop4.types
 
 import com.example.pennydrop4.game.AI
 
-class Player(
+data class Player(
     val playerName: String = "",
     val isHuman: Boolean = true,
     val selectedAI: AI? = null
