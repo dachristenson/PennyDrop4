@@ -27,7 +27,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:isHidden="@{!slot.canBeFilled || !slot.isFilled}"
-            android:tint="@{slot.lastRolled ? @color/colorPrimary : @android:color/black}" />
+            android:tint="@{slot.lastRolled ? @color/colorPrimary : @android:color/black}"
+            tools:ignore="UseAppTint" />
 
         <View
             android:id="@+id/bottomViewCoinSlot"
