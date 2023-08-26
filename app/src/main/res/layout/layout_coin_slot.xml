@@ -6,8 +6,8 @@
 
     <data>
         <variable
-            name="slotNum"
-            type="int" />
+            name="slot"
+            type="com.example.pennydrop4.types.Slot" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +25,9 @@
             android:src="@drawable/coin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:isHidden="@{!slot.canBeFilled || !slot.isFilled}"
+            android:tint="@{slot.lastRolled ? @color/colorPrimary : @android:color/black}" />
 
         <View
             android:id="@+id/bottomViewCoinSlot"
@@ -40,7 +42,9 @@
             android:id="@+id/slotNumberCoinSlot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='@{slotNum + ""}'
+            android:text='@{slot.number + ""}'
+            android:textColor=
+                "@{slot.lastRolled ? @color/colorPrimary : @android:color/black}"
             app:layout_constraintEnd_toEndOf="@id/coinImageCoinSlot"
             app:layout_constraintStart_toStartOf="@id/coinImageCoinSlot"
             app:layout_constraintTop_toBottomOf="@id/coinImageCoinSlot"

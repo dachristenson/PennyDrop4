@@ -37,7 +37,6 @@ class PickPlayersFragment : Fragment() {
                             newPlayer.isIncluded.get()
                         } ?.map { newPlayer ->
                             newPlayer.toPlayer()
-
                         } ?: emptyList()
                     )
 

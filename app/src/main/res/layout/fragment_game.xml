@@ -35,35 +35,35 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:slotNum="@{1}" />
+                app:slot="@{vm.slots[0]}" />
             <include
                 android:id="@+id/coinSlot2"
                 layout="@layout/layout_coin_slot"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:slotNum="@{2}" />
+                app:slot="@{vm.slots[1]}" />
             <include
                 android:id="@+id/coinSlot3"
                 layout="@layout/layout_coin_slot"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:slotNum="@{3}" />
+                app:slot="@{vm.slots[2]}" />
             <include
                 android:id="@+id/coinSlot4"
                 layout="@layout/layout_coin_slot"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:slotNum="@{4}" />
+                app:slot="@{vm.slots[3]}" />
             <include
                 android:id="@+id/coinSlot5"
                 layout="@layout/layout_coin_slot"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:slotNum="@{5}" />
+                app:slot="@{vm.slots[4]}" />
         </LinearLayout>
 
         <include
@@ -74,7 +74,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layoutCoinSlots"
-            app:slotNum="@{6}" />
+            app:slot="@{vm.slots[5]}" />
 
         <TextView
             android:id="@+id/textCurrentPlayerName"
@@ -124,9 +124,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                android:background=
+                    "@{vm.canRoll ? @color/colorPrimary : @color/plainGray}"
                 android:drawableEnd="@drawable/dice_6"
+                android:drawableTint="@android:color/white"
+                android:enabled="@{vm.canRoll}"
+                android:onClick="@{() -> vm.roll()}"
                 android:padding="10dp"
-                android:text="@string/roll" />
+                android:text="@string/roll"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -140,9 +146,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                android:background=
+                    "@{vm.canPass ? @color/colorAccent : @color/plainGray}"
                 android:drawableEnd="@drawable/baseline_arrow_forward_24"
+                android:drawableTint="@android:color/white"
+                android:enabled="@{vm.canPass}"
+                android:onClick="@{() -> vm.pass()}"
                 android:padding="10dp"
-                android:text="@string/pass" />
+                android:text="@string/pass"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <TextView

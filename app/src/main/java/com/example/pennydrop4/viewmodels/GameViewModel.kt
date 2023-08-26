@@ -8,11 +8,12 @@ import com.example.pennydrop4.types.Slot
 class GameViewModel: ViewModel() {
     private var players: List<Player> = emptyList()
 
-    val slots = MutableLiveData(
-        (1..6).map { slotNum ->
-            Slot(slotNum, slotNum != 6)
-        }
-    )
+    val slots =
+        MutableLiveData(
+            (1..6).map { slotNum ->
+                Slot(slotNum, slotNum != 6)
+            }
+        )
 
     val currentPlayer = MutableLiveData<Player?>()
 
@@ -30,5 +31,13 @@ class GameViewModel: ViewModel() {
             }
 
         this.canRoll.value = true
+    }
+
+    fun roll() {
+        // Implementing later
+    }
+
+    fun pass() {
+        // Implementing later
     }
 }
