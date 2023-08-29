@@ -134,7 +134,7 @@ class GameViewModel: ViewModel() {
                     |${generateCurrentStandings(this.players, "Final Scores:\n")}
                 """.trimMargin()
             result.turnEnd == TurnEnd.Bust ->
-                "Oh, no!  ${result.previousPlayer?.playerName} rolled a ${result.lastRoll}. They collected ${result.coinChangeCount} pennies for a total of ${result.previousPlayer?.pennies}.\\n$currentText"
+                "Oh, no!  ${result.previousPlayer?.playerName} rolled a ${result.lastRoll}. They collected ${result.coinChangeCount} pennies for a total of ${result.previousPlayer?.pennies}.\n$currentText"
             result.turnEnd == TurnEnd.Pass ->
                 "${result.previousPlayer?.playerName} passed.  They currently have ${result.previousPlayer?.pennies} pennies.\n$currentText"
             result.lastRoll != null ->

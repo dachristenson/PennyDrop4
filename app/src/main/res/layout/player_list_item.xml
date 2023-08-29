@@ -32,12 +32,12 @@
             android:layout_margin="5dp"
             android:hint="@string/player_name"
             android:inputType="textPersonName"
+            android:text="@={player.playerName}"
             android:visibility="@{player.isHuman ? View.VISIBLE : View.INVISIBLE}"
             android:enabled="@{player.isIncluded}"
             app:layout_constraintEnd_toStartOf="@id/switch_player_type"
             app:layout_constraintStart_toEndOf="@id/checkbox_player_active"
-            app:layout_constraintTop_toTopOf="parent"
-            android:autofillHints="@string/player_name" />
+            app:layout_constraintTop_toTopOf="parent" />
         <Spinner
             android:id="@+id/spinner_ai_name"
             android:layout_width="0dp"
