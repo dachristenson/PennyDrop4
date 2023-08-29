@@ -2,12 +2,15 @@ package com.example.pennydrop4.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.pennydrop4.game.GameHandler
 import com.example.pennydrop4.game.TurnEnd
 import com.example.pennydrop4.game.TurnResult
 import com.example.pennydrop4.types.Player
 import com.example.pennydrop4.types.Slot
 import com.example.pennydrop4.types.clear
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class GameViewModel: ViewModel() {
     private var players: List<Player> = emptyList()
@@ -26,6 +29,8 @@ class GameViewModel: ViewModel() {
 
     val currentTurnText = MutableLiveData("")
     val currentStandingsText = MutableLiveData("")
+
+    private var clearText = false
 
     fun startGame(playersForNewGame: List<Player>) {
         this.players = playersForNewGame
@@ -114,8 +119,28 @@ class GameViewModel: ViewModel() {
     }
 
     private fun generateTurnText(result: TurnResult): String {
-        // INSERT REAL FUNCTION DEFINITION BELOW
-        return "PLACEHOLDER"
+        if (clearText) currentTurnText.value = ""
+        clearText = result.turnEnd != null
+
+        val currentText = currentTurnText.value ?: ""
+        val currentPlayerName = result.currentPlayer?.playerName ?: "???"
+
+        return when {
+            result.isGameOver ->
+                """
+                    |Game Over!
+                    |$currentPlayerName is the winner!
+                    |
+                    |${generateCurrentStandings(this.players, "Final Scores:\n")}
+                """.trimMargin()
+            result.turnEnd == TurnEnd.Bust ->
+                "Oh, no!  ${result.previousPlayer?.playerName} rolled a ${result.lastRoll}. They collected ${result.coinChangeCount} pennies for a total of ${result.previousPlayer?.pennies}.\\n$currentText"
+            result.turnEnd == TurnEnd.Pass ->
+                "${result.previousPlayer?.playerName} passed.  They currently have ${result.previousPlayer?.pennies} pennies.\n$currentText"
+            result.lastRoll != null ->
+                "$currentText\n$currentPlayerName rolled a ${result.lastRoll}."
+            else -> ""
+        }
     }
 
     private fun<T> MutableLiveData<List<T>>.notifyChange() {
