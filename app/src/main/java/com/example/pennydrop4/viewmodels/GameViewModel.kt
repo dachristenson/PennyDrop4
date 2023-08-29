@@ -96,6 +96,32 @@ class GameViewModel: ViewModel() {
             canRoll.value = false
             canPass.value = false
         }
+
+        if (!result.isGameOver && result.currentPlayer?.isHuman == false) {
+            canRoll.value = false
+            canPass.value = false
+            playAITurn()
+        }
+    }
+
+    private fun playAITurn() {
+        viewModelScope.launch {
+            delay(1000)
+            slots.value?.let { currentSlots ->
+                val currentPlayer = players.firstOrNull { it.isRolling }
+
+                if (currentPlayer != null && !currentPlayer.isHuman) {
+                    GameHandler.playAITurn(
+                        players,
+                        currentPlayer,
+                        currentSlots,
+                        canPass.value == true
+                    )?.let { result ->
+                        updateFromGameHandler(result)
+                    }
+                }
+            }
+        }
     }
 
     private fun updateSlots(
