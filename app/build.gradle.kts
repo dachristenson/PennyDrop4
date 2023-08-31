@@ -1,6 +1,7 @@
 val kotlin_version = "1.8.10"
-val nav_version = "2.7.0"
+val nav_version = "2.7.1"
 val lc_version = "2.6.1"
+val room_version = "2.5.2"
 
 plugins {
     id("com.android.application")
@@ -65,6 +66,9 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lc_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lc_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
