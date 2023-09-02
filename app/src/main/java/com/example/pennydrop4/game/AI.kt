@@ -1,5 +1,6 @@
 package com.example.pennydrop4.game
 
+import com.example.pennydrop4.types.Player
 import com.example.pennydrop4.types.Slot
 import com.example.pennydrop4.types.fullSlots
 
@@ -8,6 +9,12 @@ data class AI(
     val rollAgain: (slots: List<Slot>) -> Boolean
 ) {
     override fun toString() = name
+
+    fun toPlayer() = Player(
+        playerName = name,
+        isHuman = false,
+        selectedAI = this
+    )
 
     companion object {
         @JvmStatic

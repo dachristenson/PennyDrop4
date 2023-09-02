@@ -4,11 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.pennydrop4.game.AI
 import com.example.pennydrop4.types.Player
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import androidx.room.TypeConverters
 
 @Database(
-    // We'll add the Entity classes in a bit
     entities = [Game::class, Player::class, GameState::class],
     version = 1,
     exportSchema = false
@@ -25,12 +28,21 @@ abstract class PennyDropDatabase: RoomDatabase() {
             context: Context,
             scope: CoroutineScope
         ): PennyDropDatabase =
-            this.instance ?: synchronized(this) {
+            instance ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context,
                     PennyDropDatabase::class.java,
                     "PennyDropDatabase"
-                ).build()
+                ).addCallback(object : RoomDatabase.Callback() {
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        super.onCreate(db)
+                        scope.launch {
+                            instance?.pennyDropDao()?.insertPlayers(
+                                AI.basicAI.map(AI::toPlayer)
+                            )
+                        }
+                    }
+                }).build()
 
                 this.instance = instance
 
