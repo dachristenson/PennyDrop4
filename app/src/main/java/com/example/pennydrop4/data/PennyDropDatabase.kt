@@ -17,6 +17,7 @@ import androidx.room.TypeConverters
     exportSchema = false
 )
 
+@TypeConverters(Converters::class)
 abstract class PennyDropDatabase: RoomDatabase() {
     abstract fun pennyDropDao(): PennyDropDao
 
