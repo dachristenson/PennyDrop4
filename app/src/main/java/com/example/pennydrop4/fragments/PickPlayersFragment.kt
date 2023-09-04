@@ -9,8 +9,10 @@ import com.example.pennydrop4.R
 import com.example.pennydrop4.databinding.FragmentPickPlayersBinding
 import com.example.pennydrop4.viewmodels.PickPlayersViewModel
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.pennydrop4.viewmodels.GameViewModel
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass.
@@ -31,16 +33,18 @@ class PickPlayersFragment : Fragment() {
                 this.vm = pickPlayersViewModel
 
                 this.buttonPlayGame.setOnClickListener {
-                    gameViewModel.startGame(
-                        pickPlayersViewModel.players.value
-                            ?.filter { newPlayer ->
-                            newPlayer.isIncluded.get()
-                        } ?.map { newPlayer ->
-                            newPlayer.toPlayer()
-                        } ?: emptyList()
-                    )
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        gameViewModel.startGame(
+                            pickPlayersViewModel.players.value
+                                ?.filter { newPlayer ->
+                                    newPlayer.isIncluded.get()
+                                } ?.map { newPlayer ->
+                                    newPlayer.toPlayer()
+                                } ?: emptyList()
+                        )
 
-                    findNavController().navigate(R.id.gameFragment)
+                        findNavController().navigate(R.id.gameFragment)
+                    }
                 }
             }
 

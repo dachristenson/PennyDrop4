@@ -1,8 +1,11 @@
 package com.example.pennydrop4.viewmodels
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.pennydrop4.data.PennyDropDatabase
+import com.example.pennydrop4.data.PennyDropRepository
 import com.example.pennydrop4.game.GameHandler
 import com.example.pennydrop4.game.TurnEnd
 import com.example.pennydrop4.game.TurnResult
@@ -12,7 +15,7 @@ import com.example.pennydrop4.types.clear
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class GameViewModel: ViewModel() {
+class GameViewModel(application: Application): AndroidViewModel(application) {
     private var players: List<Player> = emptyList()
 
     val slots =
@@ -32,7 +35,17 @@ class GameViewModel: ViewModel() {
 
     private var clearText = false
 
-    fun startGame(playersForNewGame: List<Player>) {
+    private val repository: PennyDropRepository
+
+    init {
+        val database =
+            PennyDropDatabase.getDatabase(application, viewModelScope)
+
+        this.repository =
+            PennyDropRepository.getInstance(database.pennyDropDao())
+    }
+
+    /*fun startGame(playersForNewGame: List<Player>) {
         this.players = playersForNewGame
         this.currentPlayer.value =
             this.players.firstOrNull().apply {
@@ -47,6 +60,10 @@ class GameViewModel: ViewModel() {
 
         currentTurnText.value = "The game has begun!\n"
         currentStandingsText.value = generateCurrentStandings(this.players)
+    }*/
+
+    suspend fun startGame(playersForNewGame: List<Player>) {
+        repository.startGame(playersForNewGame)
     }
 
     fun roll() {
