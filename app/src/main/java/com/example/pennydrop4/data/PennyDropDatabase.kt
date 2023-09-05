@@ -12,13 +12,13 @@ import kotlinx.coroutines.launch
 import androidx.room.TypeConverters
 
 @Database(
-    entities = [Game::class, Player::class, GameState::class],
+    entities = [Game::class, Player::class, GameStatus::class],
     version = 1,
     exportSchema = false
 )
 
 @TypeConverters(Converters::class)
-abstract class PennyDropDatabase: RoomDatabase() {
+abstract class PennyDropDatabase : RoomDatabase() {
     abstract fun pennyDropDao(): PennyDropDao
 
     companion object {

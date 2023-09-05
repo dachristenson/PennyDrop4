@@ -1,89 +1,104 @@
 package com.example.pennydrop4.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.example.pennydrop4.data.PennyDropDatabase
-import com.example.pennydrop4.data.PennyDropRepository
+import androidx.lifecycle.*
+import com.example.pennydrop4.data.*
 import com.example.pennydrop4.game.GameHandler
 import com.example.pennydrop4.game.TurnEnd
 import com.example.pennydrop4.game.TurnResult
-import com.example.pennydrop4.types.Player
-import com.example.pennydrop4.types.Slot
-import com.example.pennydrop4.types.clear
+import com.example.pennydrop4.types.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.OffsetDateTime
+
 
 class GameViewModel(application: Application): AndroidViewModel(application) {
-    private var players: List<Player> = emptyList()
-
-    val slots =
-        MutableLiveData(
-            (1..6).map { slotNum ->
-                Slot(slotNum, slotNum != 6)
-            }
-        )
-
-    val currentPlayer = MutableLiveData<Player?>()
-
-    val canRoll = MutableLiveData(false)
-    val canPass = MutableLiveData(false)
-
-    val currentTurnText = MutableLiveData("")
-    val currentStandingsText = MutableLiveData("")
-
     private var clearText = false
-
     private val repository: PennyDropRepository
 
+    val currentGame = MediatorLiveData<GameWithPlayers>()
+    val currentGameStatuses: LiveData<List<GameStatus>>
+    val currentPlayer: LiveData<Player>
+    val currentStandingsText: LiveData<String>
+    val slots: LiveData<List<Slot>>
+    val canRoll: LiveData<Boolean>
+    val canPass: LiveData<Boolean>
+
     init {
-        val database =
-            PennyDropDatabase.getDatabase(application, viewModelScope)
-
         this.repository =
-            PennyDropRepository.getInstance(database.pennyDropDao())
-    }
+            PennyDropDatabase
+                .getDatabase(application, viewModelScope)
+                .pennyDropDao()
+                .let { dao ->
+                    PennyDropRepository.getInstance(dao)
+                }
 
-    /*fun startGame(playersForNewGame: List<Player>) {
-        this.players = playersForNewGame
-        this.currentPlayer.value =
-            this.players.firstOrNull().apply {
-                this?.isRolling = true
+        this.currentGameStatuses = this.repository.getCurrentGameStatuses()
+
+        this.currentGame.addSource(
+            this.repository.getCurrentGameWithPlayers()
+        ) { gameWithPlayers ->
+            updateCurrentGame(gameWithPlayers, this.currentGameStatuses.value)
+        }
+
+        this.currentGame.addSource(this.currentGameStatuses) { gameStatuses ->
+            updateCurrentGame(this.currentGame.value, gameStatuses)
+        }
+
+        this.currentPlayer =
+            Transformations.map(this.currentGame) { gameWithPlayers ->
+                gameWithPlayers?.players?.firstOrNull { it.isRolling }
             }
 
-        canRoll.value = true
-        canPass.value = false
+        this.currentStandingsText =
+            Transformations.map(this.currentGame) { gameWithPlayers ->
+                gameWithPlayers?.players?.let { players ->
+                    this.generateCurrentStandings(players)
+                }
+            }
 
-        slots.value?.clear()
-        slots.notifyChange()
+        this.slots =
+            Transformations.map(this.currentGame) { gameWithPlayers ->
+                Slot.mapFromGame(gameWithPlayers?.game)
+            }
 
-        currentTurnText.value = "The game has begun!\n"
-        currentStandingsText.value = generateCurrentStandings(this.players)
-    }*/
+        this.canRoll = Transformations.map(this.currentPlayer) { player ->
+            player?.isHuman == true && currentGame.value?.game?.canRoll == true
+        }
+
+        this.canPass = Transformations.map(this.currentPlayer) { player ->
+            player?.isHuman == true && currentGame.value?.game?.canPass == true
+        }
+    }
 
     suspend fun startGame(playersForNewGame: List<Player>) {
         repository.startGame(playersForNewGame)
     }
 
     fun roll() {
-        slots.value?.let { currentSlots ->
-            // Comparing against true saves us a null check
-            val currentPlayer = players.firstOrNull { it.isRolling }
+        val game = this.currentGame.value?.game
+        val players = this.currentGame.value?.players
+        val currentPlayer = this.currentPlayer.value
+        val slots = this.slots.value
 
-            if (currentPlayer != null && canRoll.value == true) {
-                updateFromGameHandler(
-                    GameHandler.roll(players, currentPlayer, currentSlots)
-                )
-            }
+        if (game != null && players != null && currentPlayer != null &&
+            slots != null && game.canRoll) {
+            updateFromGameHandler(
+                GameHandler.roll(players, currentPlayer, slots)
+            )
         }
     }
 
     fun pass() {
-        val currentPlayer = players.firstOrNull { it.isRolling }
+        val game = this.currentGame.value?.game
+        val players = this.currentGame.value?.players
+        val currentPlayer = this.currentPlayer.value
 
-        if (currentPlayer != null && canPass.value == true) {
-            updateFromGameHandler(GameHandler.pass(players, currentPlayer))
+        if (game != null && players != null &&
+            currentPlayer != null && game.canPass) {
+            updateFromGameHandler(
+                GameHandler.pass(players, currentPlayer)
+            )
         }
     }
 
@@ -200,4 +215,29 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         ) {
             "\t${it.playerName} - ${it.pennies} pennies"
         }
+
+    private fun updateCurrentGame(
+        gameWithPlayers: GameWithPlayers?,
+        gameStatuses: List<GameStatus>?
+    ) {
+        this.currentGame.value = gameWithPlayers?.updateStatuses(gameStatuses)
+    }
+
+    fun updateStatuses(gameStatuses: List<GameStatus>?) {
+        if (gameStatuses != null) {
+            this.copy(
+                players = players.map { player ->
+                    gameStatuses
+                        .firstOrNull { it.playerId == player.playerId }
+                        ?.let { gameStatus ->
+                            player.apply {
+                                pennies = gameStatus.pennies
+                                isRolling = gameStatus.isRolling
+                                gamePlayerNumber = gameStatus.gamePlayerNumber
+                            }
+                        } ?: player
+                }.sortedBy { it.gamePlayerNumber }
+            )
+        } else this
+    }
 }
