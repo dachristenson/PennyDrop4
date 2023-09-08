@@ -14,4 +14,19 @@ data class GameWithPlayers(
     )
 
     val players: List<Player>
-)
+) {
+    fun updateStatuses(gameStatuses: List<GameStatus>?) =
+        if (gameStatuses != null) {
+            this.copy(
+                players = players.map { player ->
+                    gameStatuses.firstOrNull { it.playerId == player.playerId }?.let { gameStatus ->
+                        player.apply {
+                            pennies = gameStatus.pennies
+                            isRolling = gameStatus.isRolling
+                            gamePlayerNumber = gameStatus.gamePlayerNumber
+                        }
+                    } ?: player
+                }.sortedBy { it.gamePlayerNumber }
+            )
+        } else this
+}

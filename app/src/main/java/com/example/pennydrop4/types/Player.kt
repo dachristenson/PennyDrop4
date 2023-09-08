@@ -15,9 +15,9 @@ data class Player(
     @Ignore
     var pennies: Int = defaultPennyCount
 
-    fun addPennies(count: Int = 1) {
+    /*fun addPennies(count: Int = 1) {
         pennies += count
-    }
+    }*/
 
     @Ignore
     var isRolling: Boolean = false

@@ -1,11 +1,7 @@
 package com.example.pennydrop4.data
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
-import androidx.room.Update
+import androidx.room.*
 import com.example.pennydrop4.types.Player
 import java.time.OffsetDateTime
 
@@ -23,6 +19,12 @@ abstract class PennyDropDao {
     @Insert
     abstract suspend fun insertPlayers(players: List<Player>): List<Long>
 
+    @Insert
+    abstract suspend fun insertGameStatuses(gameStatuses: List<GameStatus>)
+
+    @Update
+    abstract suspend fun updateGameStatuses(gameStatuses: List<GameStatus>)
+
     @Update
     abstract suspend fun updateGame(game: Game)
 
@@ -36,7 +38,6 @@ abstract class PennyDropDao {
         SELECT * FROM game_statuses
         WHERE gameId = (
             SELECT gameId FROM games
-            WHERE endTime IS NULL
             ORDER BY startTime DESC
             LIMIT 1)
         ORDER BY gamePlayerNumber
@@ -47,14 +48,12 @@ abstract class PennyDropDao {
     @Query("""
         UPDATE games
         SET endTime = :endDate, gameState = :gameState
-        WHERE endTime IS NULL""")
+        WHERE endTime IS NULL
+        """)
     abstract suspend fun closeOpenGames(
         endDate: OffsetDateTime = OffsetDateTime.now(),
         gameState: GameState = GameState.Cancelled
     )
-
-    @Insert
-    abstract suspend fun insertGameStatuses(gameStatuses: List<GameStatus>)
 
     @Transaction
     open suspend fun startGame(players: List<Player>): Long {
@@ -85,9 +84,6 @@ abstract class PennyDropDao {
 
         return gameId
     }
-
-    @Update
-    abstract suspend fun updateGameStatuses(gameStatuses: List<GameStatus>)
 
     @Transaction
     open suspend fun updateGameAndStatuses(

@@ -1,6 +1,6 @@
 val kotlin_version = "1.8.10"
 val nav_version = "2.7.1"
-val lc_version = "2.6.1"
+val lc_version = "2.3.0"
 val room_version = "2.5.2"
 
 plugins {
