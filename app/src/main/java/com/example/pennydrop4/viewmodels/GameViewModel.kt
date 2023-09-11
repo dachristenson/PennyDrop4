@@ -216,10 +216,6 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             """.trimMargin()
     }
 
-    private fun<T> MutableLiveData<List<T>>.notifyChange() {
-        this.value = this.value
-    }
-
     private fun generateCurrentStandings(
         players: List<Player>,
         headerText: String = "Current Standings:"
