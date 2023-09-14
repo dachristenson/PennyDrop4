@@ -12,4 +12,5 @@
     <string name="coin_icon">Coin Icon</string>
     <string name="coins_left">coin(s) left</string>
     <string name="na">N/A</string>
+    <string name="rankings">Rankings</string>
 </resources>

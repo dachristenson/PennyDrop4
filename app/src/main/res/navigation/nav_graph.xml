@@ -13,4 +13,8 @@
         android:id="@+id/gameFragment"
         android:name="com.example.pennydrop4.fragments.GameFragment"
         android:label="fragment_game" />
+    <fragment
+        android:id="@+id/rankingsFragment"
+        android:name="com.example.pennydrop4.fragments.RankingsFragment"
+        android:label="fragment_rankings" />
 </navigation>
