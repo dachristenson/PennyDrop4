@@ -13,4 +13,5 @@
     <string name="coins_left">coin(s) left</string>
     <string name="na">N/A</string>
     <string name="rankings">Rankings</string>
+    <string name="player_type_image">Player type image</string>
 </resources>
