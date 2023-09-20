@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="Game Settings">
+        <!-- This will contain the Penny Count and Fast AI preferences -->
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Theme Settings">
+        <!-- This will contain the Theme nad light/dark mode preferences -->
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="About the App">
+        <!-- This will contain an "Acout the Ap" link -->
+    </PreferenceCategory>
+
+</PreferenceScreen>

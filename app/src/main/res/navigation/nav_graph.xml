@@ -17,4 +17,8 @@
         android:id="@+id/rankingsFragment"
         android:name="com.example.pennydrop4.fragments.RankingsFragment"
         android:label="fragment_rankings" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.pennydrop4.fragments.SettingsFragment"
+        android:label="@string/settings" />
 </navigation>

@@ -15,4 +15,5 @@
     <string name="rankings">Rankings</string>
     <string name="games_played">games played</string>
     <string name="player_type_image">Player type image</string>
+    <string name="settings">Settings</string>
 </resources>
