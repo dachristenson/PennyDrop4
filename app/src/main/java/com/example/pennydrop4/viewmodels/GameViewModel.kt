@@ -2,6 +2,7 @@ package com.example.pennydrop4.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
+import androidx.preference.PreferenceManager
 import com.example.pennydrop4.data.*
 import com.example.pennydrop4.game.GameHandler
 import com.example.pennydrop4.game.TurnEnd
@@ -22,6 +23,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     val slots: LiveData<List<Slot>>
     val canRoll: LiveData<Boolean>
     val canPass: LiveData<Boolean>
+    private val prefs = PreferenceManager.getDefaultSharedPreferences(application)
 
     init {
         this.repository =
@@ -154,7 +156,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private suspend fun playAITurn() {
-        delay(1000)
+        delay(if (prefs.getBoolean("fastAI", false)) 100 else 1000)
 
         val game = currentGame.value?.game
         val players = currentGame.value?.players

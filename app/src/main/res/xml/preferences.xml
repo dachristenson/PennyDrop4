@@ -23,7 +23,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="About the App">
-        <!-- This will contain an "Acout the Ap" link -->
+        <!-- This will contain an "About the App" link -->
     </PreferenceCategory>
 
 </PreferenceScreen>
