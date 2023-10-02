@@ -4,6 +4,7 @@ val lc_version = "2.6.2"
 val room_version = "2.5.2"
 val recycler_view_version = "1.3.1"
 val preference_version = "1.2.1"
+val material_version = "1.9.0"
 
 plugins {
     id("com.android.application")
@@ -73,6 +74,7 @@ dependencies {
     implementation("androidx.room:room-common:2.5.2")
     implementation("androidx.recyclerview:recyclerview:$recycler_view_version")
     implementation("androidx.preference:preference-ktx:$preference_version")
+    implementation("com.google.android.material:material:$material_version")
     kapt("androidx.room:room-compiler:$room_version")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
