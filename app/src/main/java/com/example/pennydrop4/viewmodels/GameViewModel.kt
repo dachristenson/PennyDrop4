@@ -15,6 +15,8 @@ import java.time.OffsetDateTime
 class GameViewModel(application: Application) : AndroidViewModel(application) {
     private var clearText = false
     private val repository: PennyDropRepository
+    private val prefs =
+        PreferenceManager.getDefaultSharedPreferences(application)
 
     val currentGame = MediatorLiveData<GameWithPlayers>()
     val currentGameStatuses: LiveData<List<GameStatus>>
@@ -23,7 +25,6 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     val slots: LiveData<List<Slot>>
     val canRoll: LiveData<Boolean>
     val canPass: LiveData<Boolean>
-    private val prefs = PreferenceManager.getDefaultSharedPreferences(application)
 
     init {
         this.repository =
@@ -70,7 +71,10 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     suspend fun startGame(playersForNewGame: List<Player>) {
-        repository.startGame(playersForNewGame)
+        repository.startGame(
+            playersForNewGame,
+            prefs?.getInt("pennyCount", Player.defaultPennyCount)
+        )
     }
 
     fun roll() {
