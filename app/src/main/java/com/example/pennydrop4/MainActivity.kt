@@ -8,12 +8,27 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val prefs =
+            PreferenceManager.getDefaultSharedPreferences(this)
+
+        val themeId = when (prefs.getString("theme", "AppTheme")) {
+            "Crew" -> R.style.Crew
+            "FTD" -> R.style.FTD
+            "GPG" -> R.style.GPG
+            "Hazel" -> R.style.Hazel
+            "Kotlin" -> R.style.Kotlin
+            else -> R.style.AppTheme
+        }
+
+        setTheme(themeId)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

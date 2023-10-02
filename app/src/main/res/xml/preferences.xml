@@ -20,6 +20,13 @@
 
     <PreferenceCategory android:title="Theme Settings">
         <!-- This will contain the Theme nad light/dark mode preferences -->
+        <DropDownPreference
+            android:defaultValue="AppTheme"
+            android:entries="@array/themes"
+            android:entryValues="@array/theme_values"
+            android:key="theme"
+            android:title="@string/app_theme"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="About the App">
