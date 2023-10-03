@@ -6,7 +6,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -37,8 +39,11 @@ class MainActivity : AppCompatActivity() {
 
         this.navController = navHostFragment.navController
 
-        findViewById<BottomNavigationView>(R.id.bottom_nav)
-            .setupWithNavController(this.navController)
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav.setupWithNavController(this.navController)
+
+        val appBarConfiguration = AppBarConfiguration(bottomNav.menu)
+        setupActionBarWithNavController(this.navController, appBarConfiguration)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -54,4 +59,8 @@ class MainActivity : AppCompatActivity() {
             item.onNavDestinationSelected(this.navController) ||
                     super.onOptionsItemSelected(item)
         } else false
+
+    override fun onSupportNavigateUp(): Boolean =
+        (this::navController.isInitialized && this.navController.navigateUp()) ||
+        super.onNavigateUp()
 }
