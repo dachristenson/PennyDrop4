@@ -27,6 +27,15 @@
             android:key="theme"
             android:title="@string/app_theme"
             app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:defaultValue="System"
+            android:entries="@array/theme_modes"
+            android:entryValues="@array/theme_mode_values"
+            android:key="themeMode"
+            android:title="@string/theme_mode"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="About the App">
