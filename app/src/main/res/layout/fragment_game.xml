@@ -124,15 +124,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background=
-                    "@{vm.canRoll ? @color/colorPrimary : @color/plainGray}"
+                android:backgroundTint="@color/roll_button_color"
                 android:drawableEnd="@drawable/dice_6"
-                android:drawableTint="@android:color/white"
+                android:drawableTint="?android:attr/textColorPrimaryInverse"
                 android:enabled="@{vm.canRoll}"
                 android:onClick="@{() -> vm.roll()}"
                 android:padding="10dp"
                 android:text="@string/roll"
-                android:textColor="@android:color/white" />
+                android:textColor="?android:attr/textColorPrimaryInverse" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -143,18 +142,18 @@
                 android:textSize="25sp" />
 
             <Button
+                android:id="@+id/passButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background=
-                    "@{vm.canPass ? @color/colorAccent : @color/plainGray}"
+                android:backgroundTint="@color/pass_button_color"
                 android:drawableEnd="@drawable/baseline_arrow_forward_24"
-                android:drawableTint="@android:color/white"
+                android:drawableTint="?android:attr/textColorPrimaryInverse"
                 android:enabled="@{vm.canPass}"
                 android:onClick="@{() -> vm.pass()}"
                 android:padding="10dp"
                 android:text="@string/pass"
-                android:textColor="@android:color/white" />
+                android:textColor="?android:attr/textColorPrimaryInverse" />
         </LinearLayout>
 
         <TextView
