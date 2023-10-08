@@ -21,4 +21,8 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.pennydrop4.fragments.SettingsFragment"
         android:label="@string/settings" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.example.pennydrop4.fragments.AboutFragment"
+        android:label="About Penny Drop" />
 </navigation>

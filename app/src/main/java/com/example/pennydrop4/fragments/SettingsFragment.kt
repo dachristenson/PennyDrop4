@@ -2,6 +2,7 @@ package com.example.pennydrop4.fragments
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.navigation.fragment.findNavController
 import androidx.preference.DropDownPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -18,6 +19,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             findPreference<DropDownPreference?>("theme")
         val themeModePreference =
             findPreference<ListPreference?>("themeMode")
+        val creditsPreference =
+            findPreference<Preference?>("credits")
 
         themePreference?.onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { _, _ ->
@@ -39,6 +42,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 }
 
                 AppCompatDelegate.setDefaultNightMode(nightMode)
+                true
+            }
+
+        creditsPreference?.onPreferenceClickListener =
+            Preference.OnPreferenceClickListener { _ ->
+                this.findNavController().navigate(R.id.aboutFragment)
                 true
             }
     }

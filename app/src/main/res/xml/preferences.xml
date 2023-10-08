@@ -19,7 +19,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Theme Settings">
-        <!-- This will contain the Theme nad light/dark mode preferences -->
         <DropDownPreference
             android:defaultValue="AppTheme"
             android:entries="@array/themes"
@@ -39,7 +38,10 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="About the App">
-        <!-- This will contain an "About the App" link -->
+        <Preference
+            android:key="credits"
+            android:summary="@string/about_app_summary"
+            android:title="@string/about_penny_drop" />
     </PreferenceCategory>
 
 </PreferenceScreen>
